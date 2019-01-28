@@ -10,7 +10,7 @@ CXXFLAGS=-shared -fPIC -std=gnu++14 -O0 -Wall $(DFLAGS) \
 
 LDFLAGS=-ldl -pthread -latomic
 
-OBJFILES=cmalloc.o pages.o pagemap.o thread_hooks.o lfbstree.o
+OBJFILES=cmalloc.o pages.o pagemap.o thread_hooks.o lfbstree.o coa.o internal.o
 
 default: cmalloc.so cmalloc.a
 
