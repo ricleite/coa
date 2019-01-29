@@ -1,8 +1,7 @@
 
 CCX=g++
 DFLAGS=-ggdb -g -fno-omit-frame-pointer
-#CXXFLAGS=-shared -fPIC -std=gnu++14 -O2 -Wall $(DFLAGS)
-CXXFLAGS=-shared -fPIC -std=gnu++14 -O0 -Wall $(DFLAGS) \
+CXXFLAGS=-shared -fPIC -std=gnu++14 -O3 -Wall $(DFLAGS) \
 	-fno-builtin-malloc -fno-builtin-free -fno-builtin-realloc \
 	-fno-builtin-calloc -fno-builtin-cfree -fno-builtin-memalign \
 	-fno-builtin-posix_memalign -fno-builtin-valloc -fno-builtin-pvalloc \
