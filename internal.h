@@ -20,7 +20,14 @@ static inline PageInfo GetPageInfoForPtr(char* ptr)
     return sPageMap.GetPageInfo(ptr);
 }
 
-char* AllocBlock(size_t size);
+// allocate block
+// if os = 0, using only internal storage
+// if os > 0, if a block cannot be found in internal storage, allocates
+//  a block with size max(os, size) from the OS
+char* AllocBlock(size_t size, size_t os = HUGEPAGE);
+// free a previously allocated block
 void FreeBlock(TKey key);
+// allocate from OS and add to storage
+void ReserveBlockFromOS(size_t size);
 
 #endif // __INTERNAL_H

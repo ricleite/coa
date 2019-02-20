@@ -6,7 +6,7 @@
 
 // initialize coalescing mechanism
 // constructs internal structures, must be called before any alloc/free
-void coa_init();
+void coa_init(size_t initialSize = 0);
 
 // allocate a block with the requested size, in bytes
 void* coa_alloc(size_t size);

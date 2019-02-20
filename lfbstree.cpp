@@ -333,6 +333,7 @@ bool LFBSTree::Cleanup(TKey key, SeekRecord& record)
     // if child isn't flagged, then sibling must be flagged
     NodeChild tmp = childAddr->load();
     NodeChild smb = siblingAddr->load();
+    (void)smb; // suppress warning
     ASSERT(tmp.IsFlagged() || smb.IsFlagged());
     if (!tmp.IsFlagged())
     {

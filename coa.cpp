@@ -4,7 +4,7 @@
 #include "internal.h"
 #include "log.h"
 
-void coa_init()
+void coa_init(size_t initialSize /*= 0*/)
 {
     LOG_DEBUG();
 
@@ -12,6 +12,9 @@ void coa_init()
     sPageMap.Init();
     // init block tree
     sTree = LFBSTree();
+
+    if (initialSize > 0)
+        ReserveBlockFromOS(initialSize);
 }
 
 void* coa_alloc(size_t size)

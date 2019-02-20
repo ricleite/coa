@@ -44,7 +44,11 @@ void ClearBlock(TKey key)
     res = sPageMap.UpdatePageInfo(ptr + size - PAGE, PageInfo(-size), PageInfo(0));
 }
 
-char* AllocBlock(size_t size)
+// allocate block
+// if os = 0, using only internal storage
+// if os > 0, if a block cannot be found in internal storage, allocates
+//  a block with size max(os, size) from the OS
+char* AllocBlock(size_t size, size_t os /*= HUGEPAGE*/)
 {
     if (UNLIKELY(size == 0))
         size = PAGE;
@@ -54,9 +58,12 @@ char* AllocBlock(size_t size)
     TKey key(size);
     if (!sTree.RemoveNext(key))
     {
+        if (os == 0)
+            return nullptr;
+
         // no available blocks
         // alloc a large block and carve from it
-        size_t blockSize = std::max(size, HUGEPAGE);
+        size_t blockSize = std::max(size, os);
         char* block = (char*)PageAlloc(blockSize);
         if (UNLIKELY(block == nullptr))
             return nullptr;
@@ -160,5 +167,21 @@ void FreeBlock(TKey key)
     // and add to tree as a free block
     bool res = sTree.Insert(key);
     (void)res; // suppress unused warning
+    ASSERT(res);
+}
+
+void ReserveBlockFromOS(size_t size)
+{
+    char* block = (char*)PageAlloc(size);
+    if (UNLIKELY(block == nullptr))
+        return;
+
+    TKey key = TKey(size, block);
+    // update page map
+    SetBlock(key);
+
+    bool res = sTree.Insert(key);
+    (void)res; // suppress warning
+    // insert can't fail, we own the block
     ASSERT(res);
 }
