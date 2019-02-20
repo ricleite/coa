@@ -10,7 +10,8 @@ Node* AllocNode();
 void RetireNode(Node* node);
 
 // global variables
-static std::atomic<char*> HeadNode(nullptr);
+// static std::atomic<char*> HeadNode(nullptr);
+static __thread char* HeadNode = nullptr;
 
 // forward arguments
 template<class T>
@@ -21,7 +22,8 @@ Node* AllocNode(T&& arg)
 
     while (true)
     {
-        char* head = HeadNode.load();
+        // char* head = HeadNode.load();
+        char* head = HeadNode;
         if (head == nullptr)
         {
             // pages are 0-filled
@@ -36,19 +38,28 @@ Node* AllocNode(T&& arg)
             }
 
             *(char**)(buffer + (numNodes - 1) * sizeof(Node)) = nullptr;
+            HeadNode = buffer;
+            /*
             if (!HeadNode.compare_exchange_strong(head, buffer))
                 PageFree(buffer, blockSize);
+            */
 
             continue;
         }
 
         char* next = *((char**)head);
+        HeadNode = next;
+        Node* node = new (head) Node(arg);
+        return node;
+
+        /*
         if (HeadNode.compare_exchange_weak(head, next))
         {
             // https://stackoverflow.com/questions/519808/call-a-constructor-on-a-already-allocated-memory
             Node* node = new (head) Node(arg);
             return node;
         }
+        */
     }
 }
 

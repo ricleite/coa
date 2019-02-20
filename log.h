@@ -6,7 +6,7 @@
 #include <cstdlib>
 
 // if 1, enables assertions and other sanity checks
-#define CMALLOC_SANITY 1
+#define CMALLOC_SANITY 0
 // if 1, enables debug output
 #define CMALLOC_DEBUG 0
 
