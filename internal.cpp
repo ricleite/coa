@@ -170,18 +170,19 @@ void FreeBlock(TKey key)
     ASSERT(res);
 }
 
-void ReserveBlockFromOS(size_t size)
+void ReserveBlockFromOS(size_t pages)
 {
-    char* block = (char*)PageAlloc(size);
+    size_t const blockSize = pages * PAGE;
+    char* block = (char*)PageAlloc(blockSize);
     if (UNLIKELY(block == nullptr))
         return;
 
-    TKey key = TKey(size, block);
+    TKey key = TKey(blockSize, block);
     // update page map
     SetBlock(key);
 
     bool res = sTree.Insert(key);
     (void)res; // suppress warning
-    // insert can't fail, we own the block
+    // insert can't failblockSize own the block
     ASSERT(res);
 }
