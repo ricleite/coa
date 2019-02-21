@@ -26,7 +26,9 @@ static inline PageInfo GetPageInfoForPtr(char* ptr)
 //  a block with size max(os, size) from the OS
 char* AllocBlock(size_t size, size_t os = HUGEPAGE);
 // free a previously allocated block
-void FreeBlock(TKey key);
+// if recursiveCoa = true, uses a recursive coalescing strategy
+// otherwise does a single coalescing attempt
+void FreeBlock(TKey key, bool recursiveCoa = false);
 // allocate `pages` from OS and add to storage
 void ReserveBlockFromOS(size_t pages);
 

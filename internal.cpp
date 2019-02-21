@@ -100,7 +100,7 @@ char* AllocBlock(size_t size, size_t os /*= HUGEPAGE*/)
     return key.address;
 }
 
-void FreeBlock(TKey key)
+void FreeBlock(TKey key, bool recursiveCoa /*= false*/)
 {
     ASSERT((key.size & PAGE_MASK) == 0);
     ASSERT(((size_t)key.address & PAGE_MASK) == 0);
@@ -134,7 +134,8 @@ void FreeBlock(TKey key)
         // update block size
         key.size += k.size;
         key.address = k.address;
-        break;
+        if (!recursiveCoa)
+            break;
     }
 
     // try forward coalescing
@@ -159,7 +160,8 @@ void FreeBlock(TKey key)
         ClearBlock(k);
         // update block size
         key.size += k.size;
-        break;
+        if (!recursiveCoa)
+            break;
     }
 
     // update page map after coalescing

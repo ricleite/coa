@@ -16,5 +16,6 @@ void* coa_alloc_pages(size_t pages);
 
 // deallocate a previously allocated block
 void coa_free(void* ptr);
+void coa_free_r(void* ptr); // perform recursive coalescing
 
 #endif // __COA_H

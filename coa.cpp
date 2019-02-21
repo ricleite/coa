@@ -51,3 +51,16 @@ void coa_free(void* ptr)
     TKey key(info.size, (char*)ptr);
     FreeBlock(key);
 }
+
+void coa_free_r(void* ptr)
+{
+    LOG_DEBUG("ptr: %p", ptr);
+    if (UNLIKELY(!ptr))
+        return;
+
+    PageInfo info = GetPageInfoForPtr((char*)ptr);
+    ASSERT(info.size > 0);
+
+    TKey key(info.size, (char*)ptr);
+    FreeBlock(key, true); // do recursive coalescing
+}
