@@ -34,6 +34,7 @@ LD_PRELOAD=cmalloc.so ./your_application
 ```
 
 ## TODOs and gotchas
+
 `coa` internally uses a lock-free binary search tree to handle ownership of
 blocks, which uses internal nodes that must be dynamically allocated.
 Currently, the memory used for those internal nodes is never reclaimed nor
@@ -42,7 +43,7 @@ programs is expected.
 
 ## Copyright
 
-Licence: MIT
+License: MIT
 
 Read file [COPYING](COPYING).
 
