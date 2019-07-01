@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Ricardo Leite. All rights reserved.
+ * Licenced under the MIT licence. See COPYING file in the project root for details.
+ */
 
 #ifndef __INTERNAL_H
 #define __INTERNAL_H

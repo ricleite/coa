@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2019 Ricardo Leite. All rights reserved.
+ * Licenced under the MIT licence. See COPYING file in the project root for details.
+ */
 
 #ifndef __CMALLOC_H
 #define __CMALLOC_H
@@ -46,7 +50,7 @@ extern "C"
     // memory alignment ops
     int c_posix_memalign(void** memptr, size_t alignment, size_t size) noexcept
         CMALLOC_EXPORT CMALLOC_NOTHROW CMALLOC_ATTR(nonnull(1))
-        CMALLOC_ALLOC_SIZE(3) CMALLOC_CACHE_ALIGNED_FN;
+        CMALLOC_CACHE_ALIGNED_FN;
     void* c_aligned_alloc(size_t alignment, size_t size) noexcept
         CMALLOC_EXPORT CMALLOC_NOTHROW CMALLOC_ALLOC_SIZE(2)
         CMALLOC_CACHE_ALIGNED_FN;
